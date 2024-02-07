@@ -7,6 +7,10 @@ const _PATH_TO_SRC = joinpath(_ROOT, "src");
 using JLD2
 using FileIO
 using DataFrames
+using CSV
+using YAML
+using TOML
+using JSON
 
 # include my codes -
 include(joinpath(_PATH_TO_SRC, "Files.jl"));
