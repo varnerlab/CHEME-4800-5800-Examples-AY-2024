@@ -18,8 +18,13 @@ containing the JSON data.
 function readjsonfile(path::String)::Dict{String,Any}
 
     # check: does path point to a json file?
-    # ...
+    is_path_a_path = ispath(path);
+    does_path_point_to_json_file = endswith(path, ".json");
+    if (is_path_a_path == false) || (does_path_point_to_json_file == false)
+        throw(ArgumentError("The path arg must point to a JSON file."))
+    end
 
+    # call the build in parsefile function from the JSON package
     return JSON.parsefile(path)
 end
 
@@ -32,10 +37,15 @@ containing the TOML data.
 function readtomlfile(path::String)::Dict{String,Any}
 
     # check: does path point to a toml file?
-    # ...
+    is_path_a_path = ispath(path);
+    does_path_point_to_toml_file = endswith(path, ".toml");
+    if (is_path_a_path == false) || (does_path_point_to_toml_file == false)
+        throw(ArgumentError("The path arg must point to a TOML file."))
+    end
 
+    # call the build in parsefile function from the TOML package
     return TOML.parsefile(path)
-end;
+end
 
 """
     readyamlfile(path::String) -> Dict{String,Any}
@@ -46,7 +56,11 @@ containing the YAML data.
 function readyamlfile(path::String)::Dict{String,Any}
 
     # check: does path point to a yaml file?
-    # ...
+    is_path_a_path = ispath(path);
+    does_path_point_to_yaml_file = endswith(path, ".yaml");
+    if (is_path_a_path == false) || (does_path_point_to_yaml_file == false)
+        throw(ArgumentError("The path arg must point to a YAML file."))
+    end
 
     return YAML.load_file(path)
 end
