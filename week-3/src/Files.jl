@@ -67,7 +67,7 @@ end
 
 
 """
-    function readcsvfile(path::String; 
+    function simplereadcsvfile(path::String; 
         delim::Char=',', keyindex::Int64 = 1) -> Tuple{Array{String,1}, Dict{Int, Array{Number,1}}}
 """ 
 function simplereadcsvfile(path::String; 
