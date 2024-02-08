@@ -65,7 +65,6 @@ function readyamlfile(path::String)::Dict{String,Any}
     return YAML.load_file(path)
 end
 
-
 """
     function simplereadcsvfile(path::String; 
         delim::Char=',', keyindex::Int64 = 1) -> Tuple{Array{String,1}, Dict{Int, Array{Number,1}}}
