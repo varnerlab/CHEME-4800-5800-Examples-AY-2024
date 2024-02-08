@@ -1,6 +1,6 @@
 [options]
 ssl_mode = "require"
-ssl = false
+ssl = true
 
 [connection]
 connection_timeout = 30
