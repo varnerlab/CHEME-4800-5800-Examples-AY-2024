@@ -1,4 +1,4 @@
-function _build(model::Type{T}, data::NamedTuple)::T where T <: AbstractPolygonEndpointModel
+function _build(modeltype::Type{T}, data::NamedTuple)::T where T <: AbstractPolygonEndpointModel
    
     # build an empty model
     model = modeltype();

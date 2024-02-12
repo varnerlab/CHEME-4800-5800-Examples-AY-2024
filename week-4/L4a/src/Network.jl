@@ -24,8 +24,8 @@ function _http_get_call_with_url(url::String)::Some{Union{ErrorException, String
     end
 end
 
-function api(model::Type{T}, complete_url_string::String;
-    handler::Function = _default_response_handler)::Dict{String, Any} where T <: AbstractPolygonEndpointModel
+function _api(model::Type{T}, complete_url_string::String;
+    handler::Function = _default_response_handler)::Any where T <: AbstractPolygonEndpointModel
 
     # execute -
     result_model = _http_get_call_with_url(complete_url_string);
@@ -41,3 +41,8 @@ function api(model::Type{T}, complete_url_string::String;
     # process and return -
     return handler(model, result_string)
 end
+
+# -- PUBLIC FUNCTIONS BELOW THIS LINE ----------------------------------------------------------------------------------------------------------- #
+# Super flex: what is going on here???
+(model::Type{MyPolygonStocksAggregatesEndpointModel})(baseurl::String)::DataFrame = _api(model, baseurl; handler = _default_response_handler)
+# -- PUBLIC FUNCTIONS ABOVE THIS LINE ----------------------------------------------------------------------------------------------------------- #

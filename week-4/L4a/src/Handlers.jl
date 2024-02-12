@@ -15,7 +15,7 @@ function _polygon_stocks_aggregates_response_handler(response::String)::DataFram
             # build a row: this an example of a NamedTuple
             row = (
                 v = data["v"],
-                ww = data["vw"],
+                vw = data["vw"],
                 o = data["o"],
                 c = data["c"],
                 h = data["h"],

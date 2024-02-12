@@ -17,5 +17,5 @@ mutable struct MyPolygonStocksAggregatesEndpointModel <: AbstractPolygonEndpoint
     limit::Int
 
     # constructor -
-    MyPolygonAggregatesEndpointModel() = new();
+    MyPolygonStocksAggregatesEndpointModel() = new();
 end
