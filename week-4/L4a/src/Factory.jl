@@ -1,69 +1,54 @@
-function _add_parameters_to_url_query_string(base::String, options::Dict{String,Any})::String
+function _build(model::Type{T}, data::NamedTuple)::T where T <: AbstractPolygonEndpointModel
+   
+    # build an empty model
+    model = modeltype();
 
-    # init -
-    url_string = base
+    # if we have options, add them to the contract model -
+    if (isempty(data) == false)
+        for key ∈ fieldnames(modeltype)
+            
+            # check the for the key - if we have it, then grab this value
+            value = nothing
+            if (haskey(data, key) == true)
+                value = data[key] # get the value
+            end
 
-    parameters = ""
-    for (key, value) in options
-
-        # don't add stuff that is nothing
-        if (isnothing(value) == false)
-            parameters *= "$(key)=$(value)&"
+            # set -
+            setproperty!(model, key, value)
         end
     end
-
-    # cut off trailing &
-    query_parameters = parameters[1:end-1]
-
+ 
     # return -
-    return url_string * query_parameters
+    return model   
 end
 
-function url(base::String, model::MyEGDARSubmissionsEndpointModel)::String
+# -- PUBLIC FUNCTIONS BELOW THIS LINE -------------------------------------------------------------------- #
+build(model::Type{T}, data::NamedTuple) where T <: AbstractPolygonEndpointModel = _build(model, data);
 
-    # get data -
-    cik = model.cik;
+
+"""
+    buildurl(base::String, model::MyPolygonStocksAggregatesEndpointModel; 
+        apiversion::Int64 = 2) -> String
+"""
+function build(base::String, model::MyPolygonStocksAggregatesEndpointModel; 
+    apiversion::Int64 = 2)::String
+
+    # get data from the model to build the url -
+    apikeuy = model.apikey;
+    stocksTicker = model.stocksTicker;
+    multiplier = model.multiplier;
+    timespan = model.timespan;
+    from = model.from;
+    to = model.to;
+    adjusted = model.adjusted;
+    sort = model.sort;
+    limit = model.limit;
 
     # build the base url -
-    url_string = "$(base)/submissions/CIK$(cik).json"
+    url_string = "$(base)/v$(apiversion)/aggs/ticker/$(stocksTicker)/range/$(multiplier)/$(timespan)/$(from)/$(to)?adjusted=$(adjusted)&sort=$(sort)&limit=$(limit)&apiKey=$(apikeuy)"
 
     # return -
     return url_string;
 end
 
-
-function url(base::String, model::MyEGDARCompanyFactsEndpointModel)::String
-
-    # get data -
-    cik = model.cik;
-
-    # build the base url -
-    url_string = "$(base)/api/xbrl/companyfacts/CIK$(cik).json"
-
-    # return -
-    return url_string;
-end
-
-function url(base::String, model::MyEGDARCompanyConceptsEndpointModel)::String
-
-    # get data -
-    cik = model.cik;
-
-    # build the base url -
-    url_string = "$(base)/api/xbrl/companyconcept/CIK$(cik)/us-gaap/AccountsPayableCurrent.json"
-
-    # return -
-    return url_string;
-end
-
-function url(base::String, model::MyEGDARFrameEndpointModel)::String
-
-    # get data -
-    frame = model.frame;
-
-    # build the base url -
-    url_string = "$(base)/api/xbrl/frames/us-gaap/AccountsPayableCurrent/USD/$(frame).json"
-
-    # return -
-    return url_string;
-end
+# -- PUBLIC FUNCTIONS ABOVE THIS LINE -------------------------------------------------------------------- #

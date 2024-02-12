@@ -1,37 +1,21 @@
-abstract type AbstractEGDAREndpointModel end
+abstract type AbstractPolygonEndpointModel end
 
-mutable struct MyEGDARSubmissionsEndpointModel <: AbstractEGDAREndpointModel
-    
+# Each endpoint model will be a struct that will contain the parameters that are required 
+# to make the request to the Polygon API.
+mutable struct MyPolygonStocksAggregatesEndpointModel <: AbstractPolygonEndpointModel
+
     # data -
-    cik::String
+    # see: https://polygon.io/docs/stocks
+    apikey::String
+    stocksTicker::String
+    multiplier::Int
+    timespan::String
+    from::Date
+    to::Date
+    adjusted::Bool
+    sort::String
+    limit::Int
 
     # constructor -
-    MyEGDARSubmissionsEndpointModel(;cik::String = "0000000000") = new(cik)
-end
-
-mutable struct MyEGDARCompanyFactsEndpointModel <: AbstractEGDAREndpointModel
-    
-    # data -
-    cik::String
-
-    # constructor -
-    MyEGDARCompanyFactsEndpointModel(;cik::String = "0000000000") = new(cik)
-end
-
-mutable struct MyEGDARCompanyConceptsEndpointModel <: AbstractEGDAREndpointModel
-    
-    # data -
-    cik::String
-
-    # constructor -
-    MyEGDARCompanyConceptsEndpointModel(;cik::String = "0000000000") = new(cik)
-end
-
-mutable struct MyEGDARFrameEndpointModel <: AbstractEGDAREndpointModel
-    
-    # data -
-    frame::String
-
-    # constructor -
-    MyEGDARFrameEndpointModel(;frame::String = "CY2019Q1I") = new(frame)
+    MyPolygonAggregatesEndpointModel() = new();
 end
