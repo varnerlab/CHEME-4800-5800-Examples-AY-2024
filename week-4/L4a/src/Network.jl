@@ -11,6 +11,11 @@ function _http_get_call_with_url(url::String)::Some{Union{ErrorException, String
         # we want to handle the errors on our own, so do NOT have HTTP.jl throw an excpetion -
         response = HTTP.request("GET", url; status_exception = false)
 
+        # check the status code, through an error if we have a problem -
+        if (response.status != 200)
+            throw(ErrorException("HTTP GET call failed with status code $(response.status)"))
+        end
+
         # return the body -
         return Some(String(response.body))
     catch error
