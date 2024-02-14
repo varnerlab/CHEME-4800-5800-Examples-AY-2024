@@ -45,9 +45,6 @@ end
 
 Computes the `fibonacci` number for n where n >= 1 using a `for` loop.
 
-### Arguments
-Fill me in.
-
 See: https://en.wikipedia.org/wiki/Fibonacci_number
 """
 function fibonacci_for_loop_dict(n::Int64)::Dict{Int64,Int64}
@@ -131,4 +128,29 @@ function memoization_fibonacci!(n::Int64, series::Dict{Int64,Int64})
     else # recursive case
         series[n] = memoization_fibonacci!(n-1, series) + memoization_fibonacci!(n-2, series);
     end
+end
+
+"""
+    bubblesort(arr::Array{T,1}) -> Array{T,1} where T <: Number
+"""
+function bubblesort(arr::Array{T,1})::Array{T,1} where T <: Number
+
+    # initialize -
+    N = length(arr)
+
+    # main -
+    for i ∈ 1:N
+        for j ∈ 1:N-i
+            if arr[j] > arr[j+1]
+
+                # swap that values at j and j+1
+                tmp = arr[j]
+                arr[j] = arr[j+1]
+                arr[j+1] = tmp
+            end
+        end
+    end
+
+    # return sorted array -
+    return arr
 end

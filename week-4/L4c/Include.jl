@@ -8,6 +8,10 @@ Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 
 # load external package -
 using BenchmarkTools
+using DataFrames
+using Statistics
+using Plots
+using Colors
 
 # include my codes -
 include(joinpath(_PATH_TO_SRC, "Compute.jl"));
