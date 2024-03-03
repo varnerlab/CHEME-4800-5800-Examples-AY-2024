@@ -26,11 +26,12 @@ end
 """
     BFS(graph::T, node::MyGraphNodeModel) where T <: MyAbstractGraphModel
 """
-function BFS(graph::T, node::MyGraphNodeModel) where T <: MyAbstractGraphModel
+function BFS(graph::T, node::MyGraphNodeModel; verbose::Bool = false) where T <: MyAbstractGraphModel
 
     # initialize -
     visited = Set{Int64}();
     q = Queue{Int64}();
+    framecounter = 1;
     
     # enqueue the first node -
     enqueue!(q, node.id);
@@ -39,7 +40,12 @@ function BFS(graph::T, node::MyGraphNodeModel) where T <: MyAbstractGraphModel
     while isempty(q) == false
         v = dequeue!(q);
         if (in(v,visited) == false)
-            @show "Visiting: $(v)";
+            
+            # print - if verbose is true
+            if (verbose == true)
+                _writeframe(_convert(graph), visited, v, framecounter);
+            end
+           
             push!(visited, v);
             mychildren = children(graph, graph.nodes[v]);
             for child in mychildren
@@ -48,5 +54,6 @@ function BFS(graph::T, node::MyGraphNodeModel) where T <: MyAbstractGraphModel
                 end
             end
         end
+        framecounter += 1;
     end
 end
