@@ -31,6 +31,8 @@ function DFS(graph::T, node::MyGraphNodeModel, visited::Set{Int64}; verbose::Boo
     end
 end
 
+
+
 """
     BFS(graph::T, node::MyGraphNodeModel) where T <: MyAbstractGraphModel
 """
