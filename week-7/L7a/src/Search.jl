@@ -19,9 +19,6 @@ function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm
     # main loop -
     while !isempty(queue)
         u = dequeue!(queue);
-
-        @show u, length(queue)
-
         mychildren = children(graph, graph.nodes[u]);
 
         for w ∈ mychildren
@@ -37,7 +34,18 @@ function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm
     return distances, previous;
 end
 
+function function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm) where T <: MyAbstractGraphModel
+    throw(ArgumentError("The Bellman-Ford algorithm is not implemented yet"));
+end
 
-function computeshortestpaths(graph::T, start::MyGraphNodeModel, algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel
+
+# ------ PUBLIC METHODS BELOW HERE -------------------------------------------------------------------------------- #
+"""
+    computeshortestpaths(graph::T, start::MyGraphNodeModel, 
+        algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel
+"""
+function computeshortestpaths(graph::T, start::MyGraphNodeModel, 
+    algorithm::MyAbstractGraphSearchAlgorithm) where T <: MyAbstractGraphModel
     return _search(graph, start, algorithm);
 end
+# ------ PUBLIC ABOVE BELOW HERE ---------------------------------------------------------------------------------- #

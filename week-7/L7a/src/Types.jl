@@ -49,3 +49,7 @@ mutable struct MySimpleUndirectedGraphModel <: MyAbstractGraphModel
 struct DikjstraAlgorithm <: MyAbstractGraphSearchAlgorithm
    DikjstraAlgorithm() = new();
 end
+
+struct BellmanFordAlgorithm <: MyAbstractGraphSearchAlgorithm
+   BellmanFordAlgorithm() = new();
+end
