@@ -34,7 +34,7 @@ function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm
     return distances, previous;
 end
 
-function function _search(graph::T, start::MyGraphNodeModel, algorithm::DikjstraAlgorithm) where T <: MyAbstractGraphModel
+function _search(graph::T, start::MyGraphNodeModel, algorithm::BellmanFordAlgorithm) where T <: MyAbstractGraphModel
     throw(ArgumentError("The Bellman-Ford algorithm is not implemented yet"));
 end
 
