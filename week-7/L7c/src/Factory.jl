@@ -24,7 +24,7 @@ function build(modeltype::Type{MyStoichiometricMatrixModel},
     model = modeltype(); # build an empty model 
 
     # call the internal function -
-    (species, reactionnames, matrix) = _build_stoichiometric_matrix(reactions, expand=expand);
+    (matrix, species, reactionnames) = _build_stoichiometric_matrix(reactions, expand=expand);
 
     # set the data -
     model.species = species;

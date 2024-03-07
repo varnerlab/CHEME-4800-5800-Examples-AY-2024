@@ -2,7 +2,7 @@
     read_reaction_file(path::String) -> Dict{String, MyKeggReaction}
 """
 function read_reaction_file(path::String; 
-    comment::Char = '#', delim::Char=',')::Dict{String, MyChemicalReactionModel}
+    comment::String = "#", delim::Char=',')::Dict{String, MyChemicalReactionModel}
     
     # check: is path legit?
     # in production we would check this path, assume ok for now
@@ -22,7 +22,7 @@ function read_reaction_file(path::String;
             # a) ignore the comments, check out the contains function: https://docs.julialang.org/en/v1/base/strings/#Base.contains
             # b) records are comma delimited. Check out the split functions: https://docs.julialang.org/en/v1/base/strings/#Base.split
             # c) from the data in each reacord, we need to build a MyKeggReaction object. Each reaction object should be stored in the reactions dict with the name as the key
-            if (contains(line, comment) == false)
+            if (contains(line, comment) == false && length(line) > 0)
 
                 fields = split(line, delim); # splits around the ','
 

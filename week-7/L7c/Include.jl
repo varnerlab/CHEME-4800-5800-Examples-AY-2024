@@ -8,7 +8,11 @@ using Pkg;
 Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 
 # load external package -
-# ...
+using Graphs; # this is a 3rd party package for graphs
+using GraphIO; # this is a 3rd party package for graph io
+using Karnak
+using Colors
+using NetworkLayout
 
 # load my codes -
 include(joinpath(_PATH_TO_SRC, "Types.jl"));

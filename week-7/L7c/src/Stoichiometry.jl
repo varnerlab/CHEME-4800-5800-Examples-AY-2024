@@ -15,8 +15,8 @@ function _expand_reversible_reactions!(reactions::Dict{String, MyChemicalReactio
             delete!(reactions, name);
 
             # build new reaction strings (forward, and reverse)
-            reactions["$F(name)"] = _build(MyChemicalReactionModel, "F$(rname)", forward_phrase, reverse_phrase, false);
-            reactions["$R(name)"] = _build(MyChemicalReactionModel, "R$(rname)", reverse_phrase, forward_phrase, false);
+            reactions["F$(name)"] = _build(MyChemicalReactionModel, "F$(rname)", forward_phrase, reverse_phrase, false);
+            reactions["R$(name)"] = _build(MyChemicalReactionModel, "R$(rname)", reverse_phrase, forward_phrase, false);
         end
     end
 end
@@ -72,7 +72,7 @@ function _build_stoichiometric_matrix(reactions::Dict{String, MyChemicalReaction
     end
 	
 	# first: let's discover the species list -
-	for (name, reaction) ∈ reactions
+	for (_, reaction) ∈ reactions
 
 		# initialize tmp storage -
 		tmp_dictionary = Dict{String,Float64}()
@@ -89,7 +89,6 @@ function _build_stoichiometric_matrix(reactions::Dict{String, MyChemicalReaction
 		
 		# we need a unique species list, so check to see if we have already discovered this species -
 		for tmp_species ∈ tmp_species_list
-
 			if (in(tmp_species, species_array) == false)
 
 				# ok, we have *not* seen this species before, let's grab it -
@@ -102,7 +101,7 @@ function _build_stoichiometric_matrix(reactions::Dict{String, MyChemicalReaction
 	sort!(species_array)
 	
 	# we have a *unique* species array, let's initialize some storage for the stoichiometric array
-	S = zeros(length(species_array), length(reactions_to_process));
+	S = zeros(length(species_array), length(reactions));
 
 	# last: fill in the values for stoichiometric coefficents -
 	for (row_index, species_symbol) ∈ enumerate(species_array)
@@ -113,6 +112,11 @@ function _build_stoichiometric_matrix(reactions::Dict{String, MyChemicalReaction
 				S[row_index,col_index] = reaction_dictionary[species_symbol]
 			end
 		end
+	end
+
+	# build the reaction name array -
+	for (reaction_name, _) ∈ reactions
+		push!(reaction_array, reaction_name)
 	end
 
 	# return -
