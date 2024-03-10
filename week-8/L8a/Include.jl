@@ -9,6 +9,7 @@ Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 
 # load external package -
 using LinearAlgebra;
+using BenchmarkTools;
 
 # load my codes -
 include(joinpath(_PATH_TO_SRC, "Types.jl"));
