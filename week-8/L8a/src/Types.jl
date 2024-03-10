@@ -41,9 +41,13 @@ end
 
 # let's create two "tag" types -
 struct MyJacobiMethod <: AbstractLinearSolverType
-    JacobiMethod() = new();
+    MyJacobiMethod() = new();
 end
 
 struct MyGaussSeidelMethod <: AbstractLinearSolverType
-    GaussSeidelMethod() = new();
+    MyGaussSeidelMethod() = new();
+end
+
+struct MyGaussianEliminationMethod <: AbstractLinearSolverType
+    MyGaussianEliminationMethod() = new();
 end
