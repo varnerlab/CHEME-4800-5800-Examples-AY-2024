@@ -47,50 +47,9 @@ function _upper_triangular(matrix::Matrix)
 end
 
 """
-    ⊗(a::Array{Float64,1},b::Array{Float64,1}) -> Array{Float64,2}
-
-Compute the outer product of two vectors `a` and `b` and returns a matrix.
-
-### Arguments
-- `a::Array{Float64,1}`: a vector of length `m`.
-- `b::Array{Float64,1}`: a vector of length `n`.
-
-### Returns
-- `Y::Array{Float64,2}`: a matrix of size `m x n` such that `Y[i,j] = a[i]*b[j]`.
-"""
-function ⊗(a::Array{Float64,1},b::Array{Float64,1})::Array{Float64,2}
-
-    # initialize -
-    m = length(a)
-    n = length(b)
-    Y = zeros(m,n)
-
-    # main loop 
-    for i ∈ 1:m
-        for j ∈ 1:n
-            Y[i,j] = a[i]*b[j]
-        end
-    end
-
-    # return 
-    return Y
-end
-
-"""
     qriteration(A::Array{Float64,2}; maxiter::Int64 = 10, tolerance::Float64 = 1e-9) -> Tuple
-
-Computes the eigenvalues and eigenvectors of a real matrix `A` using the QR iteration method.
-
-### Arguments
-- `A::Array{Float64,2}`: a real matrix of size `n x n`.
-- `maxiter::Int64`: the maximum number of iterations (default is `10`).
-- `tolerance::Float64`: the tolerance for the stopping criterion (default is `1e-9`).
-
-### Returns
-- `Tuple`: a tuple of two elements: the first element is an array of eigenvalues and the second element is a dictionary of eigenvectors.
 """
-function qriteration(A::Array{Float64,2}; 
-    maxiter::Int64 = 10, tolerance::Float64 = 1e-9)::Tuple{Array{Float64,1}, Dict{Int64,Array{Float64,1}}}
+function qriteration(A::Array{Float64,2}; maxiter::Int64 = 10, tolerance::Float64 = 1e-9)
 
     # initialize 
     number_of_rows = size(A,1);
