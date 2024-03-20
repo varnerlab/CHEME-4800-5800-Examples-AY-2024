@@ -61,7 +61,6 @@ function _solve(problem::MySimpleProblemModel, solver::MyRungeKuttaMethod)::Tupl
     # initialize -
     t0, tf, dt = problem.time_span;
     initial_conditions = problem.initial_conditions;
-    parameters = problem.parameters;
     time_array = range(t0, tf, step=dt) |> collect;
     number_of_steps = length(time_array);
     X = Array{Float64,2}(undef, length(time_array), length(initial_conditions));
@@ -75,9 +74,10 @@ function _solve(problem::MySimpleProblemModel, solver::MyRungeKuttaMethod)::Tupl
     # main loop: we've already added the initial conditions, so we start at 2 -
     for i ∈ 2:number_of_steps
         
-        # need to think about this implementation a bit more ...
-        # ...
-        
+        # let's hardocde a RK2 method for the sake of the example -
+        k1 = problem.model(X[i-1,:], i-1, problem.parameters);
+        k2 = problem.model(X[i-1,:] + (2/3)*dt*k1, i-1, problem.parameters);
+        X[i,:] = X[i-1,:] + dt*((1/4)*k1 + (3/4)*k2);
     end
    
 
@@ -90,7 +90,6 @@ function _solve(problem::MySimpleProblemModel, solver::MyAdamsBashforthMethod)::
     # initialize -
     t0, tf, dt = problem.time_span;
     initial_conditions = problem.initial_conditions;
-    parameters = problem.parameters;
     time_array = range(t0, tf, step=dt) |> collect;
     number_of_steps = length(time_array);
     number_of_states = length(initial_conditions);
@@ -106,9 +105,15 @@ function _solve(problem::MySimpleProblemModel, solver::MyAdamsBashforthMethod)::
 
     # Next, we need to use a lower-order method to get the first s-1 steps
     # We'll use the forward Euler method to do this => Super bad decision, but it's just for the sake of the example!!
-    for i ∈ 2:s
-        X[i,:] = X[i-1,:] + dt*problem.model(X[i-1,:], i-1, problem.parameters);
-    end
+    # for i ∈ 2:s
+    #     X[i,:] = X[i-1,:] + dt*problem.model(X[i-1,:], i-1, problem.parameters);
+    # end
+    rkproblem = deepcopy(problem);
+    rkproblem.time_span = (t0, t0 + (s)*dt, dt);
+    (_, XRK) = _solve(rkproblem, MyRungeKuttaMethod(2));
+
+    # copy the first s-1 steps to the X array
+    foreach(i -> X[i,:] = XRK[i,:], 2:s);
 
     # main loop: we've already added the initial conditions, so we start at 2 -
     for i ∈ (s+1):(number_of_steps)
@@ -116,12 +121,10 @@ function _solve(problem::MySimpleProblemModel, solver::MyAdamsBashforthMethod)::
         # compute the right-hand side of the ODEs -
         counter = s-1;
         for j ∈ 0:(s-1)
-
             f = problem.model(X[i - j - 1,:], i - j - 1, problem.parameters);
             for k ∈ 1:number_of_states
                 tmp[k,j+1] = b[counter]*f[k];
             end
-
             counter -= 1;
         end
         
