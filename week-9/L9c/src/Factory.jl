@@ -12,3 +12,19 @@ function build(modeltype::Type{MySimpleProblemModel}, data::NamedTuple)::MySimpl
     # return -
     return model;
 end
+
+function build(solvertype::Type{MyAdamsBashforthMethod}, data::NamedTuple)::MyAdamsBashforthMethod
+    
+    # build an empty model -
+    model = solvertype();
+
+    # get data from the NamedTuple -
+    s = data.order;
+
+    # update the model -
+    model.order = s;
+    model.b = _compute_AB_coefficients(s);
+    
+    # return -
+    return model;
+end

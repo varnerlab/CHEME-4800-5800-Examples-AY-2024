@@ -9,25 +9,6 @@ struct MyExponentialIntegratorMethod <: AbstractIVPSolverType
     MyExponentialIntegratorMethod() = new();
 end
 
-mutable struct MyRungeKuttaMethod <: AbstractIVPSolverType
-    
-    # data -
-    stages::Int
-    
-    # constructor
-    MyRungeKuttaMethod(s::Int) = new(s);
-end
-
-mutable struct MyAdamsBashforthMethod <: AbstractIVPSolverType
-    
-    # data -
-    order::Int
-    b::Dict{Int64,Float64}
-
-    # constructor
-    MyAdamsBashforthMethod() = new();
-end
-
 mutable struct MySimpleProblemModel <: AbstractIVPModelType
     
     # data -
