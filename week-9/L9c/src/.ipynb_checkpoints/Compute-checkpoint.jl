@@ -7,10 +7,8 @@ function _compute_AB_coefficients(s::Int)::Dict{Int64,Float64}
 
     # setup the functions, up to the order of the method
     f[(0,1)] = (u,p)->1.0;
-    
     f[(0,2)] = (u,p)->(u+1);
     f[(1,2)] = (u,p)->u;
-    
     f[(0,3)] = (u,p)->(u+1)*(u+2);
     f[(1,3)] = (u,p)->u*(u+2);
     f[(2,3)] = (u,p)->u*(u+1);
