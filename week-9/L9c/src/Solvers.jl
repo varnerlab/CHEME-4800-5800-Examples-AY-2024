@@ -80,7 +80,6 @@ function _solve(problem::MySimpleProblemModel, solver::MyRungeKuttaMethod)::Tupl
         X[i,:] = X[i-1,:] + dt*((1/4)*k1 + (3/4)*k2);
     end
    
-
     # return the (T,X) tuple -
     return (time_array, X);
 end
@@ -112,7 +111,7 @@ function _solve(problem::MySimpleProblemModel, solver::MyAdamsBashforthMethod)::
     rkproblem.time_span = (t0, t0 + (s)*dt, dt);
     (_, XRK) = _solve(rkproblem, MyRungeKuttaMethod(2));
 
-    # copy the first s-1 steps to the X array
+    # copy the first s steps to the X array
     foreach(i -> X[i,:] = XRK[i,:], 2:s);
 
     # main loop: we've already added the initial conditions, so we start at 2 -
