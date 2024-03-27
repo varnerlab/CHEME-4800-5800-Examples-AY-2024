@@ -106,3 +106,41 @@ function errormodel(market_matrix::Array{Float64,2}, ticker_index::Int64, θᵢ:
     # return -
     return d;
 end
+
+function indifference(problem::MySimpleLinearChoiceProblem, U::Float64, xlim::Array{Float64,2})::Array{Float64,2}
+
+    # initialize -
+    α = problem.α
+   
+    # Use the VLDecisionsPackage to compute the indifference curve -
+    model = VLDecisionsPackage.build(VLLinearUtilityFunction, (
+        α = problem.α,
+    ));
+    tmp = VLDecisionsPackage.indifference(model; utility = U, bounds = xlim, ϵ = 0.01);
+
+    # return array -
+    return tmp;
+end
+
+function budget(problem::T, xlim::Array{Float64,1})::Array{Float64,2} where {T <: AbstractSimpleChoiceProblem}
+
+    # initialize -
+    c = problem.c;
+    I = problem.I;
+
+    # set values for the good and service 1
+    X1 = range(xlim[1], stop=xlim[2], step = 0.001) |> collect;
+    d = length(X1);
+
+    Y = Array{Float64,2}(undef,d,2);
+    for j ∈ 1:d
+
+        tmp = (1/c[2])*(I - c[1]*X1[j]);
+
+        Y[j,1] = X1[j];
+        Y[j,2] = tmp
+    end
+
+    # return -
+    return Y;
+end

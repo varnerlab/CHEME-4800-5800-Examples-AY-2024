@@ -4,7 +4,7 @@ const _PATH_TO_SRC = joinpath(_ROOT, "src")
 const _PATH_TO_DATA = joinpath(_ROOT, "data")
 const _PATH_TO_MY_FRAMES = joinpath(_ROOT, "frames")
 
-# check: do we have the required packages loaded??
+# check: do we have the required packahes loaded??
 using Pkg
 Pkg.add(path="https://github.com/varnerlab/VLDecisionsPackage.jl.git")
 Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
