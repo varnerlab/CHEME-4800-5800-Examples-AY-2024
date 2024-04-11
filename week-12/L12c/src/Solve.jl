@@ -119,3 +119,4 @@ function solve(problem::MySimpleCobbDouglasChoiceProblem)::Dict{String,Any}
     # return -
     return results
 end
+
