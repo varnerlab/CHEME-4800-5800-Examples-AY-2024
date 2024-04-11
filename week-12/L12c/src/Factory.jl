@@ -40,6 +40,7 @@ function _build(modeltype::Type{T}, data::NamedTuple) where T <: Union{AbstractS
     return model
 end
 
+# --- PUBLIC METHODS BELOW HERE ----------------------------------------------------------------------------------- #
 function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where T <: MyAbstractGraphModel
 
     # build and empty graph model -
@@ -49,6 +50,7 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
     edgesinverse = Dict{Int, Tuple{Int, Int}}();
     children = Dict{Int64, Set{Int64}}();
 
+    # -- DO STUFF WITH NODES -------------------------------------------------- #
     # let's build a list of nodes ids -
     tmp_node_ids = Set{Int64}();
     for (_,v) ∈ edgemodels
@@ -57,25 +59,25 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
     end
     list_of_node_ids = tmp_node_ids |> collect |> sort;
 
-    # remap the node ids to a contiguous ordering -
-    nodeidmap = Dict{Int64, Int64}();
-    nodecounter = 1;
+    # build the nodes models with the id's
+    [nodes[id] = MyGraphNodeModel(id) for id ∈ list_of_node_ids];
+    
+    # compute the children of this node -
     for id ∈ list_of_node_ids
-        nodeidmap[id] = nodecounter;
-        nodecounter += 1;
+        node = nodes[id];
+        children[id] = _children(edges, node.id);
     end
-
-    # build the nodes models -
-    [nodes[nodeidmap[id]] = MyGraphNodeModel(nodeidmap[id]) for id ∈ list_of_node_ids];
-
-    # build the edges -
+    # ------------------------------------------------------------------------- #
+    
+    # -- DO STUFF WITH EDGES -------------------------------------------------- #
+    # build the edges dictionary (source, target) -> (cost, lower_bound_capacity, upper_bound_capacity
     for (_, v) ∈ edgemodels
-        source_index = nodeidmap[v.source];
-        target_index = nodeidmap[v.target];
+        source_index = v.source;
+        target_index = v.target;
         edges[(source_index, target_index)] = (v.cost, v.lower_bound_capacity, v.upper_bound_capacity);
     end
 
-    # build the inverse edge map -
+    # build the inverse edge dictionary edgeid -> (source, target)
     n = length(nodes);
     edgecounter = 1;
     for source ∈ 1:n
@@ -86,14 +88,8 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
             end
         end
     end
+    # ------------------------------------------------------------------------- #
     
-    # compute the children -
-    for id ∈ list_of_node_ids
-        newid = nodeidmap[id];
-        node = nodes[newid];
-        children[newid] = _children(edges, node.id);
-    end
-
     # add stuff to model -
     graphmodel.nodes = nodes;
     graphmodel.edges = edges;
@@ -105,3 +101,4 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
 end
 
 build(model::Type{MySimpleCobbDouglasChoiceProblem}, data::NamedTuple)::MySimpleCobbDouglasChoiceProblem = _build(model, data);
+# --- PUBLIC METHODS ABOVE HERE ----------------------------------------------------------------------------------- #
