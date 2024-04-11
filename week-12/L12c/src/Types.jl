@@ -1,6 +1,7 @@
 abstract type MyAbstractGraphModel end
 abstract type MyAbstractGraphNodeModel end
 abstract type MyAbstractGraphEdgeModel end
+abstract type AbstractSimpleChoiceProblem end
 
 mutable struct MyGraphNodeModel <: MyAbstractGraphNodeModel
    
@@ -36,3 +37,16 @@ mutable struct MyGraphNodeModel <: MyAbstractGraphNodeModel
     # constructor -
     MySimpleDirectedGraphModel() = new();
  end
+
+ mutable struct MySimpleCobbDouglasChoiceProblem <: AbstractSimpleChoiceProblem
+
+   # data -
+   α::Array{Float64,1}
+   c::Array{Float64,1}
+   I::Float64
+   bounds::Array{Float64,2}
+   initial::Array{Float64,1}
+
+   # constructor
+   MySimpleCobbDouglasChoiceProblem() = new();
+end

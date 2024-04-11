@@ -15,6 +15,31 @@ function _build(edgemodel::Type{MyGraphEdgeModel}, parts::Array{String,1}, id::I
     return model
 end
 
+function _build(modeltype::Type{T}, data::NamedTuple) where T <: Union{AbstractSimpleChoiceProblem}
+    
+    # build an empty model
+    model = modeltype();
+
+    # if we have options, add them to the contract model -
+    if (isempty(data) == false)
+        for key ∈ fieldnames(modeltype)
+            
+            # check the for the key - if we have it, then grab this value
+            value = nothing
+            if (haskey(data, key) == true)
+                # get the value -
+                value = data[key]
+            end
+
+            # set -
+            setproperty!(model, key, value)
+        end
+    end
+ 
+    # return -
+    return model
+end
+
 function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where T <: MyAbstractGraphModel
 
     # build and empty graph model -
@@ -78,3 +103,5 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
     # return -
     return graphmodel;
 end
+
+build(model::Type{MySimpleCobbDouglasChoiceProblem}, data::NamedTuple)::MySimpleCobbDouglasChoiceProblem = _build(model, data);

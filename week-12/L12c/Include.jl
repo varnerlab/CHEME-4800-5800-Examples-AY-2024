@@ -10,6 +10,7 @@ Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 # load packages -
 using GLPK
 using JuMP
+using MadNLP
 using Plots
 using Colors
 
