@@ -10,6 +10,8 @@ Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 using Distributions
 using Plots
 using Colors
+using LinearAlgebra
+using Statistics
 
 # load my codes -
 # ...
