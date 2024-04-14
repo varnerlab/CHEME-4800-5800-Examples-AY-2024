@@ -17,7 +17,7 @@ end
 function build(modeltype::Type{MyRectangularGridWorldModel}, data::NamedTuple)::MyRectangularGridWorldModel
 
     # initialize and empty model -
-    model = model()
+    model = modeltype()
 
     # get the data -
     nrows = data[:nrows]

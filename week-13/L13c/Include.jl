@@ -6,7 +6,11 @@ using Pkg
 Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 
 # load the required packages -
-# ...
+using LinearAlgebra
+using Statistics
+using Distributions
+using Plots
+using Colors
 
 # load my codes -
 include(joinpath(_PATH_TO_SRC, "Types.jl"))
