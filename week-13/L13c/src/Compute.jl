@@ -1,3 +1,23 @@
+function lookahead(p::MyMDPProblemModel, U::Vector{Float64}, s::Int64, a::Int64)
+
+    # grab stuff from the problem -
+    R = p.R;  # reward -
+    T = p.T;    
+    γ = p.γ;
+    𝒮 = p.𝒮;
+    
+    # setup my state array -
+    return R[s,a] + γ*sum(T[s,s′,a]*U[i] for (i,s′) in enumerate(𝒮))
+end
+
+function lookahead(p::MyMDPProblemModel, U::Function, s::Int64, a::Int64)
+
+    # get data from the problem -
+    𝒮, T, R, γ = p.𝒮, p.T, p.R, p.γ;
+    return R[s,a] + γ*sum(T[s,s′,a]*U(s′) for s′ in 𝒮)
+end
+
+
 function myrandpolicy(problem::MyMDPProblemModel, 
     world::MyRectangularGridWorldModel, s::Int)::Int
 
@@ -94,4 +114,24 @@ function policy(Q_array::Array{Float64,2})::Array{Int64,1}
 
     # return -
     return π_array;
+end
+
+function backup(problem::MyMDPProblemModel, U::Array{Float64,1}, s::Int64)
+    return maximum(lookahead(problem, U, s, a) for a ∈ problem.𝒜);
+end
+
+function solve(model::MyValueIterationModel, problem::MyMDPProblemModel)::MyValueFunctionPolicy
+    
+    # data -
+    k_max = model.k_max;
+
+    # initialize
+    U = [0.0 for _ ∈ problem.𝒮];
+
+    # main loop -
+    for _ ∈ 1:k_max
+        U = [backup(problem, U, s) for s ∈ problem.𝒮];
+    end
+
+    return MyValueFunctionPolicy(problem, U);
 end
