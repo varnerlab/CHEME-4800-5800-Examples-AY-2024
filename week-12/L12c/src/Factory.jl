@@ -63,10 +63,10 @@ function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where 
     [nodes[id] = MyGraphNodeModel(id) for id ∈ list_of_node_ids];
     
     # compute the children of this node -
-    for id ∈ list_of_node_ids
-        node = nodes[id];
-        children[id] = _children(edges, node.id);
-    end
+    # for id ∈ list_of_node_ids
+    #     node = nodes[id];
+    #     children[id] = _children(edges, node.id);
+    # end
     # ------------------------------------------------------------------------- #
     
     # -- DO STUFF WITH EDGES -------------------------------------------------- #
