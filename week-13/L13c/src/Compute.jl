@@ -135,3 +135,28 @@ function solve(model::MyValueIterationModel, problem::MyMDPProblemModel)::MyValu
 
     return MyValueFunctionPolicy(problem, U);
 end
+
+function iterative_policy_evaluation(p::MyMDPProblemModel, π, k_max::Int)
+
+    # grab stuff from the problem -
+    R = p.R;  # reward -
+    T = p.T;    
+    γ = p.γ;
+    𝒮 = p.𝒮;
+
+    # initialize value -
+    U = [0.0 for s ∈ 𝒮];
+
+    for _ ∈ 1:k_max
+        U = [lookahead(p, U, s, π(s)) for s ∈ 𝒮]
+    end
+
+    return U;
+end
+
+function greedy(problem::MyMDPProblemModel, U::Array{Float64,1}, s::Int64)
+    u, a = findmax(a->lookahead(problem, U, s, a), problem.𝒜);
+    return (a=a, u=u)
+end
+
+(π::MyValueFunctionPolicy)(s::Int64) = greedy(π.problem, π.U, s).a;
