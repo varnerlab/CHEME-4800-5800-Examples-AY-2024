@@ -1,4 +1,7 @@
 # PRIVATE METHODS BELOW HERE ================================================================================= #
+# placeholder - always return 0
+_null(action::Int64)::Int64 = return 0;
+
 """
     _update!(model::MyQLearningModel, data::NamedTuple) -> MyQLearninAgentModel
 """
