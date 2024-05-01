@@ -6,15 +6,18 @@ const _PATH_TO_IMAGES = joinpath(_ROOT, "images");
 
 # load external packages -
 using Pkg
-Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
+Pkg.add([PackageSpec(; name="LERC_jll", version="3.0.0")]);
+# Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 
 # using statements -
 using Images
 using ImageInTerminal
 using Flux
 using FileIO
+using ImageIO
 using OneHotArrays
 using Statistics
+using JLD2
 
 # load my codes -
 include(joinpath(_PATH_TO_SRC, "Types.jl"));
