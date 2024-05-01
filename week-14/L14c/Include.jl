@@ -11,5 +11,6 @@ Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 using LinearAlgebra
 using Plots
 using Colors
+using CSV
 
 # load my codes -
