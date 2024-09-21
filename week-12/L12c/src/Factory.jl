@@ -41,6 +41,9 @@ function _build(modeltype::Type{T}, data::NamedTuple) where T <: Union{AbstractS
 end
 
 # --- PUBLIC METHODS BELOW HERE ----------------------------------------------------------------------------------- #
+"""
+    build(model::Type{T}, parts::Array{String,1}, id::Int64) where T <: MyGraphEdgeModel
+"""
 function build(model::Type{T}, edgemodels::Dict{Int64, MyGraphEdgeModel}) where T <: MyAbstractGraphModel
 
     # build and empty graph model -
