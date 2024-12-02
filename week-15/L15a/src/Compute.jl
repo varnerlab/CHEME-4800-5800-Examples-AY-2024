@@ -63,13 +63,14 @@ end
 
 # PUBLIC METHODS BELOW HERE ================================================================================== #``
 # Cool hack: What is going on with these?
+(model::MyRectangularGridWorldModel)(s::Int, a::Int) = _world(model, s, a);
 (model::MyQLearningAgentModel)(data::NamedTuple) = _update(model, data);
 
 """
     simulate(model::MyQLearningModel, environment::T, startstate::Int, maxsteps::Int;
         ϵ::Float64 = 0.2) -> MyQLearningModel where T <: AbstractWorldModel
 """
-function simulate(agent::MyQLearningAgentModel, environment::Function, startstate::Tuple{Int,Int}, maxsteps::Int;
+function simulate(agent::MyQLearningAgentModel, environment::MyRectangularGridWorldModel, startstate::Tuple{Int,Int}, maxsteps::Int;
     ϵ::Float64 = 0.2)::MyQLearningAgentModel
 
     # initialize -
